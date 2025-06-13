@@ -1,0 +1,162 @@
+{
+  "info": {
+    "name": "IP Geolocation API",
+    "description": "Collection for testing IP Geolocation API with beautiful visualizations",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": ["{{base_url}}"],
+          "path": [""]
+        },
+        "description": "Check if the API is running"
+      },
+      "response": []
+    },
+    {
+      "name": "Get My Location",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/geo",
+          "host": ["{{base_url}}"],
+          "path": ["geo"]
+        },
+        "description": "Get geolocation data for client's IP"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Parse response",
+              "let response = pm.response.json();",
+              "",
+              "// Test response status",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Test response structure",
+              "pm.test(\"Response has required fields\", function () {",
+              "    pm.expect(response).to.have.property('ip');",
+              "    pm.expect(response).to.have.property('country');",
+              "    pm.expect(response).to.have.property('city');",
+              "});",
+              "",
+              "// Beautiful visualization",
+              "pm.visualizer.set(`",
+              "<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\">",
+              "    <div style=\"background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);\">",
+              "        <h2 style=\"color: #333; margin-top: 0; text-align: center; border-bottom: 2px solid #667eea; padding-bottom: 10px;\">",
+              "            🌍 IP Geolocation Results",
+              "        </h2>",
+              "        ",
+              "        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;\">",
+              "            <div style=\"background: #f8f9fa; padding: 15px; border-radius: 6px; border-left: 4px solid #28a745;\">",
+              "                <strong style=\"color: #495057;\">🖥️ IP Address:</strong><br>",
+              "                <span style=\"font-size: 18px; color: #212529;\">{{ip}}</span>",
+              "            </div>",
+              "            <div style=\"background: #f8f9fa; padding: 15px; border-radius: 6px; border-left: 4px solid #17a2b8;\">",
+              "                <strong style=\"color: #495057;\">🏙️ City:</strong><br>",
+              "                <span style=\"font-size: 18px; color: #212529;\">{{city}}</span>",
+              "            </div>",
+              "            <div style=\"background: #f8f9fa; padding: 15px; border-radius: 6px; border-left: 4px solid #ffc107;\">",
+              "                <strong style=\"color: #495057;\">🏛️ Region:</strong><br>",
+              "                <span style=\"font-size: 18px; color: #212529;\">{{region}}</span>",
+              "            </div>",
+              "            <div style=\"background: #f8f9fa; padding: 15px; border-radius: 6px; border-left: 4px solid #dc3545;\">",
+              "                <strong style=\"color: #495057;\">🇺🇸 Country:</strong><br>",
+              "                <span style=\"font-size: 18px; color: #212529;\">{{country}} ({{country_code}})</span>",
+              "            </div>",
+              "        </div>",
+              "        ",
+              "        <div style=\"background: #e9ecef; padding: 15px; border-radius: 6px; margin-bottom: 15px;\">",
+              "            <h4 style=\"margin-top: 0; color: #495057;\">📍 Coordinates</h4>",
+              "            <p style=\"margin: 5px 0; font-size: 16px;\">",
+              "                <strong>Latitude:</strong> {{latitude}}° <br>",
+              "                <strong>Longitude:</strong> {{longitude}}°",
+              "            </p>",
+              "        </div>",
+              "        ",
+              "        <div style=\"background: #d1ecf1; padding: 15px; border-radius: 6px; border: 1px solid #bee5eb;\">",
+              "            <h4 style=\"margin-top: 0; color: #0c5460;\">🌐 Network Information</h4>",
+              "            <p style=\"margin: 5px 0;\"><strong>ISP:</strong> {{isp}}</p>",
+              "            <p style=\"margin: 5px 0;\"><strong>Organization:</strong> {{organization}}</p>",
+              "            <p style=\"margin: 5px 0;\"><strong>Timezone:</strong> {{timezone}}</p>",
+              "            {{#if zip_code}}<p style=\"margin: 5px 0;\"><strong>ZIP Code:</strong> {{zip_code}}</p>{{/if}}",
+              "        </div>",
+              "        ",
+              "        <div style=\"text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #dee2e6; color: #6c757d; font-size: 12px;\">",
+              "            Query Time: {{query_time}}",
+              "        </div>",
+              "    </div>",
+              "</div>",
+              "`, response);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "Get Location by IP",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/geo/8.8.8.8",
+          "host": ["{{base_url}}"],
+          "path": ["geo", "8.8.8.8"]
+        },
+        "description": "Get geolocation data for a specific IP address"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Parse response",
+              "let response = pm.response.json();",
+              "",
+              "// Test response status",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Simple card visualization for specific IP",
+              "pm.visualizer.set(`",
+              "<div style=\"font-family: Arial, sans-serif; max-width: 500px; margin: 20px auto; padding: 20px; border-radius: 10px; background: linear-gradient(45deg, #FF6B6B, #4ECDC4); color: white; text-align: center;\">",
+              "    <h2 style=\"margin-top: 0;\">🔍 IP Lookup: {{ip}}</h2>",
+              "    <div style=\"background: rgba(255,255,255,0.2); border-radius: 8px; padding: 15px; margin: 15px 0;\">",
+              "        <h3>📍 {{city}}, {{region}}</h3>",
+              "        <h2>{{country}} {{country_code}}</h2>",
+              "        <p><strong>Coordinates:</strong> {{latitude}}, {{longitude}}</p>",
+              "        <p><strong>ISP:</strong> {{isp}}</p>",
+              "    </div>",
+              "</div>",
+              "`, response);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000",
+      "type": "string"
+    }
+  ]
+}
