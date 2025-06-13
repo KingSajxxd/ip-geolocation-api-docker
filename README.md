@@ -1,6 +1,6 @@
 # Ip-geolocation-api-docker
 A simple, lightweight Flask-based IP Geolocation API that retrieves location details (country, city, ISP, timezone, coordinates) for any given IP address using the ip-api.com service. Supports client and custom IP lookup via REST endpoints. Dockerized for easy containerized deployment and portability.
-=======
+
 # 🌍 IP Geolocation API
 
 A simple, Dockerized Flask API that detects client IP addresses and returns geolocation data with beautiful Postman visualizations.
@@ -221,11 +221,3 @@ After completing this project, you'll understand:
 3. **Add Authentication**: Secure your API
 4. **Deploy to Cloud**: AWS, Heroku, or DigitalOcean
 5. **Add Monitoring**: Health checks and logging
-
----
-
-**Happy Coding! 🚀**
-
-*This project demonstrates how simple APIs can create powerful, visual experiences when combined with the right tools.*
->>>>>>> cd1421e (Add README file with project description, usage, and setup instructions)
->>>>>>> 9c338d2 (Add README file with project description, usage, and setup instructions)
