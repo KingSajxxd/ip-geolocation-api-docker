@@ -267,33 +267,3 @@ docker-compose -f docker-compose.yaml up -d
 docker-compose ps
 docker-compose logs
 ```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [ip-api.com](http://ip-api.com/) for providing the free geolocation API
-- Flask team for the excellent web framework
-- MySQL team for the robust database system
-
-## 📞 Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Issues](../../issues) section
-2. Create a new issue with detailed information
-3. Include logs and error messages
-
----
-
-**Made with ❤️ by [Your Name]**
