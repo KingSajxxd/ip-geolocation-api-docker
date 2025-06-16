@@ -1,15 +1,57 @@
 services:
+  mysql:
+    image: mysql:8.0
+    container_name: geo_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: geolocation_db
+      MYSQL_USER: geouser
+      MYSQL_PASSWORD: geopassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - geo_network
+
   ip-geo-api:
     build: .
+    container_name: geo_api
+    restart: unless-stopped
     ports:
       - "5000:5000"
     environment:
       - FLASK_ENV=production
       - PORT=5000
-    restart: unless-stopped
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=geouser
+      - DB_PASSWORD=geopassword
+      - DB_NAME=geolocation_db
+    depends_on:
+      mysql:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+    networks:
+      - geo_network
+
+networks:
+  geo_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
